@@ -15,7 +15,7 @@ var build = "develop"
 func main() {
 	// conf.New()
 	// httptreemux.New()
-	log.Println("Starting services Douglas", build)
+	log.Println("Starting services Douglas visto bueno", build)
 	defer log.Println("Service ended")
 
 	shutdown := make(chan os.Signal, 1)
