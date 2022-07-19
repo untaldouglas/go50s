@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/untaldouglas/apps/go50s'
+make: Leaving directory '/home/untaldouglas/apps/go50s'
+ 
+makefile:37: *** missing separator.  Stop.
+
