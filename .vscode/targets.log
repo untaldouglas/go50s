@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue Jul 19 10:01:43 2022
+# Make data base, printed on Thu Jul 21 17:48:37 2022
 
 # Variables
 
@@ -77,7 +77,7 @@ MAKE_HOST := x86_64-pc-linux-gnu
 # environment
 PATH = /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/untaldouglas/go/bin:/usr/local/go/bin:/home/untaldouglas/go/bin:/usr/local/go/bin
 # environment
-SESSION_MANAGER = local/untaldouglas-MacBookAir:@/tmp/.ICE-unix/7138,unix/untaldouglas-MacBookAir:/tmp/.ICE-unix/7138
+SESSION_MANAGER = local/untaldouglas-MacBookAir:@/tmp/.ICE-unix/2733,unix/untaldouglas-MacBookAir:/tmp/.ICE-unix/2733
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
@@ -93,9 +93,9 @@ XDG_GREETER_DATA_DIR = /var/lib/lightdm-data/untaldouglas
 # environment
 XDG_SESSION_DESKTOP = xfce
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-jmE0uJhn1gYG/agent.7138
+SSH_AUTH_SOCK = /tmp/ssh-BXYg8bqKxlxc/agent.2733
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 9874
+GIO_LAUNCHED_DESKTOP_FILE_PID = 5212
 # automatic
 %F = $(notdir $%)
 # environment
@@ -109,7 +109,7 @@ QT_QPA_PLATFORMTHEME = qt5ct
 # environment
 XDG_SEAT = seat0
 # environment
-SSH_AGENT_PID = 7215
+SSH_AGENT_PID = 2810
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = XFCE
 # environment
@@ -119,11 +119,11 @@ GOMODCACHE = /home/untaldouglas/go/pkg/mod
 # environment
 HOME = /home/untaldouglas
 # environment
-VSCODE_CODE_CACHE_PATH = /home/untaldouglas/.config/Code/CachedData/b06ae3b2d2dbfe28bca3134cc6be65935cdfea6a
+VSCODE_CODE_CACHE_PATH = /home/untaldouglas/.config/Code/CachedData/3b889b090b5ad5793f524b5d1d39fda662b96a2a
 # environment
 LOGNAME = untaldouglas
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # automatic
 +F = $(notdir $+)
 # environment
@@ -169,7 +169,7 @@ LANGUAGE = en_US
 # environment
 XDG_SEAT_PATH = /org/freedesktop/DisplayManager/Seat0
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-6e66ecf0-1.69.1-main.sock
+VSCODE_IPC_HOOK = /run/user/1000/vscode-6e66ecf0-1.69.2-main.sock
 # makefile
 MAKEFLAGS = pqrR
 # environment
@@ -215,7 +215,7 @@ LC_ADDRESS = es_SV.UTF-8
 # environment
 LANG = C
 # environment
-VSCODE_PID = 9874
+VSCODE_PID = 5212
 # variable set hash-table stats:
 # Load=103/1024=10%, Rehash=0, Collisions=9/134=7%
 
@@ -225,15 +225,36 @@ VSCODE_PID = 9874
 
 # Directories
 
-# . (device 2050, inode 5770028): 13 files, no impossibilities.
+# . (device 2050, inode 5770028): 11 files, no impossibilities.
 
-# 13 files, no impossibilities in 1 directories.
+# 11 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
 # No implicit rules.
 
 # Files
+
+kind-logs:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 47):
+	kubectl logs -l app=service --all-containers=true -f --tail=100 
+
+kind-restart:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 50):
+	kubectl rollout restart deployment service-pod 
+
+kind-load:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 35):
+	kind load docker-image service-amd64:$(VERSION) --name $(KIND_CLUSTER)
 
 all: service
 #  Command line target.
@@ -257,6 +278,7 @@ service:
 # automatic
 # * := 
 # automatic
+ 
 # + := 
 # automatic
 # | := 
@@ -276,6 +298,11 @@ service:
 		--build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
 		.
 
+kind-update-apply: all kind-load kind-apply
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
 # Not a target:
 .SUFFIXES:
 #  Implicit rule search has not been done.
@@ -286,15 +313,30 @@ service:
 # Not a target:
 makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-15 11:28:40.925014123
+#  Last modified 2022-07-19 16:04:16.661503163
 #  File has been updated.
 #  Successfully updated.
+
+build:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 7):
+	go build -ldflags "-X main.build=local"
 
 # Not a target:
 .DEFAULT:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+
+kind-apply:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 38):
+	# cat zarf/k8s/base/service-pod/base-service.yaml | kubectl apply -f -
+	kustomize build zarf/k8s/kind/service-pod | kubectl apply -f -
 
 run:
 #  Implicit rule search has not been done.
@@ -303,13 +345,31 @@ run:
 #  recipe to execute (from 'makefile', line 4):
 	go run main.go
 
+kind-describe:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 57):
+	# kubectl describe nodes
+	# kubectl describe svc
+	kubectl describe pod -l app=service
+
+tidy:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'makefile', line 66):
+	go mod tidy
+	go mod vendor
+
 kind-status:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'makefile', line 34):
+#  recipe to execute (from 'makefile', line 42):
 	kubectl get nodes -o wide
 	kubectl get svc -o wide
+	kubectl get pods -o wide --watch 
 
 kind-up:
 #  Implicit rule search has not been done.
@@ -320,28 +380,35 @@ kind-up:
 		--image kindest/node:v1.21.1@sha256:69860bda5563ac81e3c0057d654b5253219618a22ec3a346306239bba8cfa1a6 \
 		--name $(KIND_CLUSTER) \
 		--config zarf/k8s/kind/kind-config.yaml 
+	kubectl config set-context --current --namespace=service-system
 
 kind-down:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'makefile', line 31):
+#  recipe to execute (from 'makefile', line 32):
 	kind delete cluster --name $(KIND_CLUSTER)
 
+kind-update: all kind-load kind-restart
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
 # files hash-table stats:
-# Load=9/1024=1%, Rehash=0, Collisions=0/23=0%
+# Load=18/1024=2%, Rehash=0, Collisions=0/38=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 23 / storage = 185 B / avg = 8 B
-# current buf: size = 8162 B / used = 185 B / count = 23 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 30 / storage = 271 B / avg = 9 B
+ 
+# current buf: size = 8162 B / used = 271 B / count = 30 / avg = 9 B
 
-# strcache performance: lookups = 36 / hit rate = 36%
+# strcache performance: lookups = 58 / hit rate = 48%
 # hash-table stats:
-# Load=23/8192=0%, Rehash=0, Collisions=1/36=3%
-# Finished Make data base on Tue Jul 19 10:01:43 2022
+# Load=30/8192=0%, Rehash=0, Collisions=1/58=2%
+# Finished Make data base on Thu Jul 21 17:48:37 2022
 
  
